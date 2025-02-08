@@ -1,0 +1,20 @@
+{
+    "name": "juliendnte/php-port-folio",
+    "type": "project",
+    "require": {
+        "symfony/dotenv": "^7.2",
+      "ext-pdo": "*"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Juliendnte",
+            "email": "145002789+Juliendnte@users.noreply.github.com"
+        }
+    ]
+}

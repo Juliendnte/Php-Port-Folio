@@ -1,0 +1,12 @@
+{
+  "name": "php-port-folio",
+  "version": "1.0.0",
+  "description": "Ce projet est une application web développée en PHP & MySQL permettant aux utilisateurs de gérer leurs portfolios",
+  "main": "index.js",
+  "scripts": {
+    "start": "php -S localhost:8080 -t public"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
