@@ -128,7 +128,7 @@ class Model
      * Insère une nouvelle ligne dans la base de données
      *
      * @param array $values
-     * @return integer | false le nombre de lignes inséré (normalement une); false si une erreur est rencontrée
+     * @return int le nombre de lignes inséré (normalement une); false si une erreur est rencontrée
      */
     public function create(array $values): int
     {

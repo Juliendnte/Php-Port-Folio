@@ -10,8 +10,10 @@ class User extends Model
     {
         return $this->findAll();
     }
-    public function findByEmail(string $email) : array | bool
+
+    public function findByEmail(string $email): array|bool
     {
         return $this->findOneBy('email', $email);
     }
+
 }
