@@ -6,12 +6,13 @@ CREATE TABLE IF NOT EXISTS roles
 
 CREATE TABLE IF NOT EXISTS users
 (
-    id         INT AUTO_INCREMENT PRIMARY KEY,
-    email      VARCHAR(100) NOT NULL UNIQUE,
-    username   VARCHAR(100),
-    password   VARCHAR(100) NOT NULL,
-    id_role    INT          NOT NULL DEFAULT 1,
-    created_at TIMESTAMP             DEFAULT CURRENT_TIMESTAMP,
+    id             INT AUTO_INCREMENT PRIMARY KEY,
+    email          VARCHAR(100) NOT NULL UNIQUE,
+    username       VARCHAR(100),
+    password       VARCHAR(100) NOT NULL,
+    remember_token VARCHAR(200),
+    id_role        INT          NOT NULL DEFAULT 1,
+    created_at     TIMESTAMP             DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (id_role) REFERENCES roles (id)
 );
 
@@ -45,7 +46,8 @@ CREATE TABLE IF NOT EXISTS users_skills
 );
 
 INSERT INTO roles (id, role)
-VALUES (1, 'user'), (2, 'admin');
+VALUES (1, 'user'),
+       (2, 'admin');
 
 INSERT INTO users (email, username, password, id_role)
 VALUES ('julien.dante@ynov.com', 'Julien', '$2y$10$yetby0XYcEX6NhP1gQPzd.4QkgaFZ1nbhI1UM7o67SGhWQFan4vYS', 2),

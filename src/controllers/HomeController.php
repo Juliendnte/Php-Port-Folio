@@ -8,6 +8,7 @@ class HomeController
 {
     public function index(): void
     {
+        
         $userModel = new User();
 
         BaseController::render('home', [

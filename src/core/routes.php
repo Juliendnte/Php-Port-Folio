@@ -2,6 +2,7 @@
 
 namespace App\core;
 
+use App\Controllers\AuthController;
 use App\Controllers\ErrorController;
 
 class routes

@@ -16,4 +16,20 @@ class User extends Model
         return $this->findOneBy('email', $email);
     }
 
+    public function findByRememberToken(string $token): array|bool
+    {
+        return $this->findOneBy('remember_token', $token);
+    }
+
+    public function updateRememberToken(int $id, string $token): bool|int
+    {
+        return $this->update($id, ['remember_token' => $token]);
+
+    }
+
+    public function clearRememberToken(int $id)
+    {
+        return $this->update($id, ['remember_token' => NULL]);
+    }
+
 }
