@@ -8,7 +8,7 @@ if (AuthController::connected()) {
 
 <form method="post" action="/register">
     <label for="username"></label><input type="text" name="username" id="username" required>
-    <label for="email"></label>
+    <label for="email">Email :</label>
     <input type="email" name="email" id="email" required
            value="<?php echo isset($_SESSION['log_email']) ? htmlspecialchars($_SESSION['log_email']) : '' ?>">
 
@@ -19,7 +19,7 @@ if (AuthController::connected()) {
         unset($_SESSION["errors"]["email"]);
     }
     ?>
-    <label for="password"></label>
+    <label for="password">Password :</label>
     <input type="password" name="password" id="password" required
            value="<?php echo isset($_SESSION['log_password']) ? htmlspecialchars($_SESSION['log_password']) : '' ?>">
     <?php
@@ -29,7 +29,7 @@ if (AuthController::connected()) {
         unset($_SESSION["errors"]["password"]);
     }
     ?>
-    <label for="confirm_password"></label><input type="password" id="confirm_password" name="confirm_password"
+    <label for="confirm_password">Password Confirm :</label><input type="password" id="confirm_password" name="confirm_password"
                                                  required>
     <?php
     if (isset($_SESSION["errors"]) && count($_SESSION["errors"]) > 0) {

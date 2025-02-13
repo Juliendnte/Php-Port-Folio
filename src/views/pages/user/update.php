@@ -1,3 +1,8 @@
+<?php
+echo '<script>';
+echo 'console.log(' . json_encode($_SESSION, JSON_PRETTY_PRINT) . ');';
+echo '</script>';
+?>
 <form action="/profile/update" method="post">
     <label for="username">Name</label>
     <input type="text" name="username" id="username">

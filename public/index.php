@@ -25,6 +25,8 @@ $router->addRoute("GET", "/register", "AuthController", "register");
 $router->addRoute("POST", "/register", "AuthController", "record");
 $router->addRoute("GET", "/logout", "AuthController", "logout");
 $router->addRoute("GET", "/projects", "ProjectController", "listProjects");
+$router->addRoute("GET", "/projects/add", "ProjectController", "addProject");
+$router->addRoute("POST", "/projects/add", "ProjectController", "create");
 
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $method = $_SERVER['REQUEST_METHOD'];

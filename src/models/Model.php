@@ -168,19 +168,19 @@ class Model
             $arrayKeys[] = $str;
         }
         $keysStr = implode(', ', $arrayKeys);
-        $key = $this->keyName;
-        $sql .= $keysStr . " WHERE $key=:id";
+        $keyUnique = $this->keyName;
+        $sql .= $keysStr . " WHERE $keyUnique=:id";
         try {
             $statement = $this->pdo->prepare($sql);
-
+            unset($_SESSION['erreur']);
+            $_SESSION['erreur'] = $values;
             foreach ($values as $key => $val) {
                 $statement->bindParam(":$key", $val);
             }
-            $statement->bindParam(":$key", $id);
+            $statement->bindParam(":$keyUnique", $id);
             $statement->execute();
             return $statement->rowCount();
         } catch (Exception $e) {
-            echo($e->getMessage());
             return false;
         }
     }

@@ -1,5 +1,5 @@
 <form method="post" action="/login">
-    <label for="email"></label>
+    <label for="email">Email:</label>
     <input type="email" name="email" id="email" required
            value="<?php echo isset($_SESSION['log_email']) ? htmlspecialchars($_SESSION['log_email']) : '' ?>">
 
@@ -9,9 +9,9 @@
         unset($_SESSION["errors"]["email"]);
     }
     ?>
-    <label for="password"></label>
+    <label for="password">Password:</label>
     <input type="password" name="password" id="password" required
-    value="<?php echo isset($_SESSION['log_password']) ? htmlspecialchars($_SESSION['log_password']) : '' ?>">
+           value="<?php echo isset($_SESSION['log_password']) ? htmlspecialchars($_SESSION['log_password']) : '' ?>">
     <?php
     if (isset($_SESSION["errors"]) && count($_SESSION["errors"]) > 0) {
         if (isset($_SESSION["errors"]["password"])) {

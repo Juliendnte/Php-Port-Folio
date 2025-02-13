@@ -2,6 +2,7 @@
 
 namespace App\controllers;
 
+use App\models\Project;
 use App\models\Roles;
 use App\models\User;
 
@@ -13,7 +14,9 @@ class UserController
         if (empty($user)) {
             header('Location:/', 401);
         }
-        BaseController::render('user/profile', $user);
+        $projectModel = new Project();
+        $project = $projectModel->findAllProjectsByUser($user['id']);
+        BaseController::render('user/profile', ['user' => $user, 'project' => $project]);
     }
 
     public static function dashboard(): void
@@ -47,12 +50,17 @@ class UserController
         if (empty($user)) {
             header('Location:/', 401);
         }
-        $username = $_POST['username'] ?? $user['username'];
-        $email = $_POST['email'] ?? $user['email'];
-        $password = $_POST['password'] ?? $user['password'];
+        $username = !empty($_POST['username']) ? $_POST['username'] : $user['username'];
+        $email = !empty($_POST['email']) ? $_POST['email'] : $user['email'];
+        $password = !empty($_POST['password']) ? $_POST['password'] : $user['password'];
 
         $userModel = new User();
-        $userModel->update($user['id'], ['username' => $username, 'email' => $email, 'password' => $password === $user['password'] ? $password : password_hash($password, PASSWORD_DEFAULT)]);
-        header('Location:/user/profile');
+
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+        $values = ["username" => $username,
+            'password' => $hashedPassword === $user['password'] ? $password : $hashedPassword,
+            "email" => $email,];
+        $userModel->update($user['id'], $values);
+        header('Location:/profile');
     }
 }

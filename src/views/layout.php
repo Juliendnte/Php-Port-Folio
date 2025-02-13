@@ -12,7 +12,5 @@
 <main>
     <?= $content ?? '' ?>
 </main>
-
-<?php include __DIR__ . '/partials/footer.php'; ?>
 </body>
-</html><?php
+</html>
