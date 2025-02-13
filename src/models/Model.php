@@ -10,7 +10,7 @@ class Model
 {
 
     protected string $table = self::class;
-    private ?PDO $pdo;
+    protected ?PDO $pdo;
     protected string $keyName = "id";
 
     public function __construct(string $table = "")
@@ -158,29 +158,24 @@ class Model
      */
     public function update(int $id, array $values): int|bool
     {
-        // UPDATE $table SET $col=$:col, ... WHERE $key = :id;
         $table = $this->table;
-        $sql = "UPDATE $table SET ";
-        $keys = array_keys($values);
-        $arrayKeys = [];
-        foreach ($keys as $key) {
-            $str = $key . "=:" . $key;
-            $arrayKeys[] = $str;
-        }
-        $keysStr = implode(', ', $arrayKeys);
-        $keyUnique = $this->keyName;
-        $sql .= $keysStr . " WHERE $keyUnique=:id";
+        $columns = implode(", ", array_map(fn($key) => "$key = :$key", array_keys($values)));
+
+        $sql = <<<sql
+    UPDATE $table SET $columns WHERE {$this->keyName} = :id
+    sql;
+
+        $_SESSION['sql'] = $sql;
         try {
             $statement = $this->pdo->prepare($sql);
-            unset($_SESSION['erreur']);
-            $_SESSION['erreur'] = $values;
-            foreach ($values as $key => $val) {
-                $statement->bindParam(":$key", $val);
+            foreach ($values as $key => $value) {
+                $statement->bindValue(":$key", $value);
             }
-            $statement->bindParam(":$keyUnique", $id);
+            $statement->bindValue(":id", $id, PDO::PARAM_INT);
             $statement->execute();
             return $statement->rowCount();
         } catch (Exception $e) {
+            $_SESSION['erreur'] = $e->getMessage();
             return false;
         }
     }
@@ -193,14 +188,13 @@ class Model
      */
     public function delete(int $id): int|bool
     {
-        // DELETE $table WHERE $key = :id;
         $table = $this->table;
         $key = $this->keyName;
-        $sql = "DELETE $table WHERE $key = :id";
+        $sql = "DELETE FROM $table WHERE $key= :id ;";
         try {
             $statement = $this->pdo->prepare($sql);
-
-            $statement->bindParam(":$key", $id);
+            $_SESSION['sql'] = $sql;
+            $statement->bindParam(":$key", $id, PDO::PARAM_INT);
             $statement->execute();
             return $statement->rowCount();
         } catch (Exception $e) {

@@ -27,7 +27,7 @@ class User extends Model
 
     }
 
-    public function clearRememberToken(int $id)
+    public function clearRememberToken(int $id): bool|int
     {
         return $this->update($id, ['remember_token' => NULL]);
     }

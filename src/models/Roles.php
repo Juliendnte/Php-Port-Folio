@@ -13,4 +13,5 @@ class Roles extends Model
     {
         return $this->findOneBy('role', $role);
     }
+
 }

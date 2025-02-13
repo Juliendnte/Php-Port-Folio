@@ -4,7 +4,9 @@ namespace App\controllers;
 
 use App\models\Project;
 use App\models\Roles;
+use App\models\Skill;
 use App\models\User;
+use App\models\Users_skills;
 
 class UserController
 {
@@ -16,7 +18,12 @@ class UserController
         }
         $projectModel = new Project();
         $project = $projectModel->findAllProjectsByUser($user['id']);
-        BaseController::render('user/profile', ['user' => $user, 'project' => $project]);
+
+        $userskillModel = new Users_skills();
+        $skillModel = new Skill();
+        $skills = $skillModel->getAllSkills();
+        $skillsUsers = $userskillModel->getAllUsersSkillsByUserId($user['id']);
+        BaseController::render('user/profile', ['user' => $user, 'project' => $project, 'skills' => $skillsUsers, 'availableSkills' => $skills]);
     }
 
     public static function dashboard(): void
@@ -25,8 +32,9 @@ class UserController
         if (empty($user) || !self::isAdmin($user['id_role'])) {
             header('Location:/', 401);
         }
-
-        BaseController::render('user/dashboard');
+        $skillModel = new Skill();
+        $skills = $skillModel->getAllSkills();
+        BaseController::render('user/dashboard', ['skills' => $skills]);
     }
 
     public static function isAdmin(int $id_role): bool
@@ -59,7 +67,7 @@ class UserController
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
         $values = ["username" => $username,
             'password' => $hashedPassword === $user['password'] ? $password : $hashedPassword,
-            "email" => $email,];
+            "email" => $email];
         $userModel->update($user['id'], $values);
         header('Location:/profile');
     }

@@ -27,6 +27,10 @@ $router->addRoute("GET", "/logout", "AuthController", "logout");
 $router->addRoute("GET", "/projects", "ProjectController", "listProjects");
 $router->addRoute("GET", "/projects/add", "ProjectController", "addProject");
 $router->addRoute("POST", "/projects/add", "ProjectController", "create");
+$router->addRoute("POST", "/skill/add", "SkillController", "addSkill");
+$router->addRoute("GET", "/skill/delete/:id", "SkillController", "deleteSkill");
+$router->addRoute("GET", "/profile/skill/delete/:id", "SkillController", "deleteUserSkill");
+$router->addRoute("POST", "/profile/addSkill", "SkillController", "addUserSkill");
 
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $method = $_SERVER['REQUEST_METHOD'];

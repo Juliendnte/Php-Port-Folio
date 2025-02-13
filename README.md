@@ -18,7 +18,7 @@ Ce projet est une application web développée en PHP & MySQL permettant aux uti
 -  Gestion des rôles (Admin / Utilisateur)
 -  Mise à jour des informations utilisateur
 -  Réinitialisation du mot de passe
-- Déconnexion sécurisée
+-  Déconnexion sécurisée
 
 ### Gestion des Compétences
 
@@ -108,7 +108,7 @@ UN exemple de structure possible (la première ligne doit respecter cette struct
 ## Technologies Utilisées
 
 - **Backend** : **PHP**
-- **Frontend** : **Html5, CSS**
+- **Frontend** : **Html**
 - **Sécurité** : **à renseigner**
 - **Gestion du Projet** : **à renseigner**
 
