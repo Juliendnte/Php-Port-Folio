@@ -10,3 +10,5 @@ if ($users) {
 }
 
 ?>
+<?php $hasProjects = count($projects) > 0; ?>
+<?php include __DIR__ . '/../partials/getProjects.php'; ?>

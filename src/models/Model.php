@@ -6,6 +6,9 @@ use App\config\Database;
 use PDO;
 use Exception;
 
+/**
+ * Mon ORM
+ */
 class Model
 {
 
@@ -42,7 +45,6 @@ class Model
             $statement->bindParam(':id', $id, PDO::PARAM_INT);
             $statement->execute();
         } catch (Exception $e) {
-            echo($e->getMessage());
             return false;
         }
         return $statement->fetch(PDO::FETCH_ASSOC);
@@ -69,7 +71,6 @@ class Model
             $statement->bindParam(':value', $value);
             $statement->execute();
         } catch (Exception $e) {
-            echo($e->getMessage());
             return false;
         }
         return $statement->fetch(PDO::FETCH_ASSOC);
@@ -128,9 +129,9 @@ class Model
      * Insère une nouvelle ligne dans la base de données
      *
      * @param array $values
-     * @return int le nombre de lignes inséré (normalement une); false si une erreur est rencontrée
+     * @return int|bool le nombre de lignes inséré (normalement une); false si une erreur est rencontrée
      */
-    public function create(array $values): int
+    public function create(array $values): int|bool
     {
         $table = $this->table;
         $sql = "INSERT INTO $table (";
@@ -139,14 +140,18 @@ class Model
         $sql .= $keysStr . ") VALUES (:";
         $paramsStr = implode(', :', $keys);
         $sql .= $paramsStr . ')';
-        $statement = $this->pdo->prepare($sql);
+        try {
+            $statement = $this->pdo->prepare($sql);
 
-        foreach ($values as $key => $val) {
-            $statement->bindValue(":$key", $val);
+            foreach ($values as $key => $val) {
+                $statement->bindValue(":$key", $val);
+            }
+            $statement->execute();
+
+            return $this->pdo->lastInsertId();
+        }catch (Exception $e) {
+            return false;
         }
-        $statement->execute();
-
-        return $this->pdo->lastInsertId();
     }
 
     /**
@@ -195,7 +200,6 @@ class Model
             $statement->execute();
             return $statement->rowCount();
         } catch (Exception $e) {
-            echo($e->getMessage());
             return false;
         }
     }

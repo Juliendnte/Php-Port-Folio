@@ -6,23 +6,40 @@ use App\models\User;
 use Exception;
 use Random\RandomException;
 
+/**
+ * Contrôleur d'authentification pour gérer les actions liées à l'authentification des utilisateurs.
+ */
 class AuthController
 {
 
+    /**
+     * Affiche la page de connexion si l'utilisateur n'est pas connecté.
+     *
+     * Si déjà connecté, redirige vers la page d'accueil.
+     *
+     * @return void
+     */
     public static function login(): void
     {
-        if (self::connected()){
+        if (self::connected()) {
             header("Location:/");
         }
         BaseController::render('auth/login');
     }
 
     /**
-     * @throws RandomException
+     * Authentifie un utilisateur à l'aide des identifiants soumis.
+     *
+     * Vérifie, nettoie et valide les données envoyées via le formulaire pour connecter l'utilisateur.
+     * Si les informations sont incorrectes, redirige vers la page de connexion.
+     * En cas de succès, l'utilisateur est redirigé vers la page d'accueil.
+     *
+     * @throws RandomException En cas d'erreur lors de la génération du token.
+     * @return void
      */
     public static function authenticate(): void
     {
-        if (self::connected()){
+        if (self::connected()) {
             header("Location:/");
         }
         $password = $_POST["password"];
@@ -81,16 +98,15 @@ class AuthController
         header("location:/");
     }
 
+    /**
+     * Vérifie le cookie "remember_me" pour connecter automatiquement un utilisateur.
+     *
+     * Si un token valide est trouvé, l'utilisateur sera connecté via la session.
+     *
+     * @return void
+     */
     public static function checkRememberMe(): void
     {
-        if (session_status() !== PHP_SESSION_ACTIVE) {
-            session_start();
-        }
-
-        if (self::connected()) {
-            return;
-        }
-
         if (isset($_COOKIE['remember_me'])) {
             $token = $_COOKIE['remember_me'];
             $userModel = new User();
@@ -102,14 +118,31 @@ class AuthController
         }
     }
 
+    /**
+     * Affiche la page d'enregistrement pour un nouvel utilisateur.
+     *
+     * Si l'utilisateur est déjà connecté, redirige vers la page d'accueil.
+     *
+     * @return void
+     */
     public static function register(): void
     {
-        if (self::connected()){
+        if (self::connected()) {
             header("Location:/");
         }
         BaseController::render('auth/register');
     }
 
+    /**
+     * Enregistre un nouvel utilisateur dans le système.
+     *
+     * Valide les informations envoyées via le formulaire (email, mot de passe, etc.).
+     * Si les informations sont invalides ou qu'une erreur survient, redirige vers la page de registre avec des erreurs.
+     *
+     * En cas de succès, redirige l'utilisateur vers la page d'accueil.
+     *
+     * @return void
+     */
     public static function record(): void
     {
         if (self::connected()) {
@@ -137,34 +170,49 @@ class AuthController
         }
 
         if (isset($_SESSION["errors"]) && count($_SESSION["errors"]) > 0) {
+            $_SESSION["log_username"] = $usernane;
             $_SESSION["log_email"] = $email;
             $_SESSION["log_password"] = $password;
+            $_SESSION["log_confirm_password"] = $_POST["confirm_password"];
             header('Location:register', 400);
             return;
         }
 
         $email = filter_var($email, FILTER_SANITIZE_EMAIL);
 
-        try {
-            $userModel = new User();
-            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-            $values = ["username" => $usernane,
-                'password' => $hashedPassword,
-                "email" => $email,];
-            $userModel->create($values);
-
-        } catch (Exception $e) {
+        $userModel = new User();
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+        $values = ["username" => $usernane,
+            'password' => $hashedPassword,
+            "email" => $email,];
+        if ($userModel->create($values) === false) {
+            $_SESSION["log_username"] = $usernane;
             $_SESSION["log_email"] = $email;
             $_SESSION["log_password"] = $password;
+            $_SESSION["log_confirm_password"] = $_POST["confirm_password"];
             $_SESSION["errors"]["BDD"] = $e->getMessage();
             header('Location:register', 400);
             return;
         }
+
         unset($_SESSION["log_email"]);
         unset($_SESSION["log_password"]);
+        unset($_SESSION["log_confirm_password"]);
+        unset($_SESSION["log_username"]);
         $_SESSION["email"] = $email;
         header('Location:/', 200);
     }
+
+    /**
+     * Déconnecte l'utilisateur actuellement connecté.
+     *
+     * Réinitialise la session, nettoie les cookies, et supprime le token "remember_me" de la base de données
+     * pour s'assurer qu'aucune donnée d'authentification persistante ne reste.
+     *
+     * Redirige vers la page d'accueil après la déconnexion.
+     *
+     * @return void
+     */
 
     public static function logout(): void
     {
@@ -186,6 +234,14 @@ class AuthController
         header('Location:/');
     }
 
+    /**
+     * Vérifie si un utilisateur est connecté.
+     *
+     * Cette méthode vérifie si une session utilisateur est active et si un email valide est associé à cette session.
+     * Si un utilisateur est trouvé avec cet email dans la base de données, retourne ses informations.
+     *
+     * @return bool|array Retourne un tableau contenant les informations de l'utilisateur connecté, ou `false` si non connecté.
+     */
     public static function connected(): bool|array
     {
         if (session_status() !== PHP_SESSION_ACTIVE) {

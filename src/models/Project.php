@@ -6,9 +6,20 @@ class Project extends Model
 {
     protected string $table = 'projects';
 
-    public function createProject($title, $description, $image, $link, $id_user): void
+
+    public function getAllProjects(): bool|array
     {
-        $this->create([
+        return $this->findAll();
+    }
+
+    public function getProjectById($id): bool|array
+    {
+        return $this->findOneBy('id', $id);
+    }
+
+    public function createProject($title, $description, $image, $link, $id_user): bool|int
+    {
+        return $this->create([
             'title' => $title,
             'description' => $description,
             'image' => $image,

@@ -16,5 +16,12 @@
             "name": "Juliendnte",
             "email": "145002789+Juliendnte@users.noreply.github.com"
         }
-    ]
+    ],
+    "scripts": {
+        "serve": "php -S localhost:8080 -t public"
+    },
+    "config": {
+        "process-timeout": 900
+    }
+
 }

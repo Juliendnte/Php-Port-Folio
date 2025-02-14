@@ -31,3 +31,7 @@
 
     <button type="submit">Se connecter</button>
 </form>
+<?php
+unset($_SESSION['log_email']);
+unset($_SESSION['log_password']);
+?>

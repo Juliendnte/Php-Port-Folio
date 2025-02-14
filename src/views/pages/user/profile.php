@@ -2,6 +2,8 @@
 echo '<script>';
 echo 'console.log(' . json_encode($_SESSION, JSON_PRETTY_PRINT) . ');';
 echo '</script>';
+use App\models\Skill;
+
 $hasProjects = !empty($variables['project']);
 ?>
     <h2>Mon Profil</h2>
@@ -11,7 +13,7 @@ $hasProjects = !empty($variables['project']);
     <br/>
     <p>Vos Skills :</p>
 <?php
-$skillModel = new \App\models\Skill();
+$skillModel = new Skill();
 $levels = ['débutant', 'intermédiaire', 'expert'];
 
 foreach ($variables['skills'] as $skill) {
@@ -20,16 +22,16 @@ foreach ($variables['skills'] as $skill) {
     ?>
     <form action="/profile/skill/update/<?= htmlspecialchars($skill['skill_id']) ?>" method="post">
         <label for="level_<?= htmlspecialchars($skill['skill_id']) ?>">Niveau :</label>
-        <select name="level" id="level_<?= htmlspecialchars($skill['skill_id']) ?>">
-            <?php foreach ($levels as $level): ?>
-                <option value="<?= htmlspecialchars($level) ?>" <?= $level === $skill['level'] ? 'selected' : '' ?>>
-                    <?= htmlspecialchars($level) ?>
-                </option>
-            <?php endforeach; ?>
-        </select>
+       <?php include __DIR__ . '/../../partials/selectLevelSkill.php'; ?>
         <button type="submit">Mettre à jour</button>
     </form>
     <a href="/profile/skill/delete/<?= htmlspecialchars($skill['skill_id']) ?>">Supprimer ce skill</a>
+    <?php
+    if (isset($_SESSION["errors"]["id_del_project"]) && count($_SESSION["errors"]) > 0) {
+        echo($_SESSION["errors"]["id_del_project"]);
+        unset($_SESSION["errors"]["id_del_project"]);
+    }
+    ?>
     <br>
     <br>
     <?php
@@ -40,13 +42,7 @@ foreach ($variables['skills'] as $skill) {
         <label for="skill">
             Choisissez un Skill :
         </label>
-        <select required name="skill" id="skill">
-            <?php foreach ($availableSkills as $skill): ?>
-                <option value="<?= htmlspecialchars($skill['id']) ?>">
-                    <?= htmlspecialchars($skill['name']) ?>
-                </option>
-            <?php endforeach; ?>
-        </select>
+        <?php include __DIR__ . '/../../partials/selectSkill.php'; ?>
         <br/>
         <label for="level">
             Niveau :
@@ -67,26 +63,4 @@ foreach ($variables['skills'] as $skill) {
 
     <a href="/projects/add">Créer <?php echo $hasProjects ? 'un' : 'ton premier' ?> post</a>
     <br/>
-<?php if (!$hasProjects): ?>
-    <p>Vous n'avez pas encore de post.</p>
-<?php else: ?>
-    <p>Voici les derniers posts :</p>
-    <?php foreach ($variables['project'] as $project): ?>
-        <?php if (!empty($project['link'])): ?>
-            <a href="<?= htmlspecialchars($project['link']); ?>">
-                <?= htmlspecialchars($project['title']); ?>
-            </a>
-        <?php else: ?>
-            <p><?= htmlspecialchars($project['title']); ?></p>
-        <?php endif; ?>
-        <p><?= htmlspecialchars($project['description']); ?></p>
-        <img width="150px" height="150px"
-             src="<?= $_ENV['BASE_URL'] . '/images/' . htmlspecialchars($project['image']); ?>" alt="img"/>
-        <br/>
-        <a href="/projects/update/<?= htmlspecialchars($project['id']) ?>">Modifier</a>
-        <br/>
-        <a href="/projects/delete/<?= htmlspecialchars($project['id']) ?>">Supprimer</a>
-        <br>
-        <br>
-    <?php endforeach; ?>
-<?php endif; ?>
+<?php include __DIR__ . '/../../partials/getYourProject.php'; ?>

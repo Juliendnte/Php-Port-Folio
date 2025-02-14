@@ -10,9 +10,9 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
     session_start();
 }
 
-use App\core\routes;
+use App\core\Routes;
 
-$router = new routes();
+$router = new Routes();
 
 $router->addRoute("GET", "/", "HomeController", "index");
 
@@ -39,6 +39,8 @@ $router->addRoute("GET", "/skill/delete/:id", "SkillController", "deleteSkill");
 $router->addRoute("GET", "/profile/skill/delete/:id", "SkillController", "deleteUserSkill");
 $router->addRoute("POST", "/profile/skill/update/:id", "SkillController", "updateUserSkill");
 $router->addRoute("POST", "/profile/addSkill", "SkillController", "addUserSkill");
+
+$router->addRoute("GET", "/error/500", "ErrorController", "error500");
 
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $method = $_SERVER['REQUEST_METHOD'];

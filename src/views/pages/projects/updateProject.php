@@ -1,8 +1,3 @@
-<?php
-echo '<script>';
-echo 'console.log(' . json_encode($_SESSION, JSON_PRETTY_PRINT) . ');';
-echo '</script>';
-?>
 <h2>Modifier Votre Projet</h2>
 <form action="/projects/update/<?= $variables['project']['id'] ?>" method="post" enctype="multipart/form-data">
     <label for="title">Titre :</label>
@@ -16,5 +11,15 @@ echo '</script>';
 
     <label for="image">Image :</label>
     <input type="file" name="image" id="image">
+    <?php
+    if (isset($_SESSION["errors"]["image"]) && count($_SESSION["errors"]) > 0) {
+        echo($_SESSION["errors"]["image"]);
+        unset($_SESSION["errors"]["image"]);
+    }
+    if (isset($_SESSION["errors"]["BDD"]) && count($_SESSION["errors"]) > 0) {
+        echo($_SESSION["errors"]["BDD"]);
+        unset($_SESSION["errors"]["BDD"]);
+    }
+    ?>
     <input type="submit" value="Modifier">
 </form>

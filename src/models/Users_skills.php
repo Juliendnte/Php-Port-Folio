@@ -8,7 +8,25 @@ class Users_skills extends Model
 
     protected string $table = 'users_skills';
 
-    public function getAllUsersSkillsByUserId($userId): bool|array
+
+    public function getUsersSkills(int $userId, int $skillId): false|array
+    {
+        $sql = <<<sql
+SELECT * FROM $this->table WHERE user_id = :userId AND skill_id = :skillId;
+sql;
+        try {
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->bindParam(":userId", $userId, \PDO::PARAM_INT);
+            $stmt->bindParam(":skillId", $skillId, \PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetchAll();
+        } catch (\Exception $e) {
+            return false;
+        }
+
+    }
+
+    public function getAllUsersSkillsByUserId(int $userId): bool|array
     {
         return $this->findAllBy('user_id', $userId);
     }

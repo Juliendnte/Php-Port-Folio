@@ -1,5 +1,7 @@
 # Projet Portfolio - Gestion des Utilisateurs et des Compétences
 
+###### Ce projet n'a pas de css par manque temps mais a normalement un bon back (je crois)
+
 ## Présentation du Projet
 
 Ce projet est une application web développée en PHP & MySQL permettant aux utilisateurs de :
@@ -59,58 +61,48 @@ Ce projet est une application web développée en PHP & MySQL permettant aux uti
 
 2. Importer la base de données :
 
-    - *à renseigner*
+    - dans  ```` /src/config/database.sql ````
 
 3. Configurer la connexion à la base de données :
-   Modifier le fichier `config/database.php` :
+   Créer un `.env` comme `.env.example` :
 
-   ```php
-   define('DB_HOST', 'localhost');
-   define('DB_NAME', 'projetb2');
-   define('DB_USER', 'projetb2');
-   define('DB_PASS', 'password');
-   define('DB_PORT', 3306);
+   ```.dotenv
+   DB_HOST=localhost
+   DB_NAME=projetb2
+   DB_USER=projetb2
+   DB_PASS=password
+   DB_PORT=3306
+
+   BASE_URL=http://localhost:8080
    ```
 
 4. Démarrer le serveur PHP et tester l'application :
 
    ```sh
-   php -S localhost:8000
+   composer serve
    ```
 
-   Puis accéder à l'application via `http://localhost:8000`
+   Puis accéder à l'application via `http://localhost:8080`
 
 ## Comptes de Test
 
 ### Compte Administrateur
 
-- **Email** : admin@example.com
+- **Email** : julien.dante@ynov.com
 - **Mot de passe** : password
 
 ### Compte Utilisateur
 
-- **Email** : user@example.com
+- **Email** : kantin.fagniart@ynov.com
 - **Mot de passe** : password
-
-## Structure du Projet
-
-UN exemple de structure possible (la première ligne doit respecter cette structure).
-
-```
-/config/database.php -> Configuration de la base de données
-/models/         -> Classes PHP (User, Auth, Project, Skill)
-/controllers/    -> Gestion des requêtes et logiques métier
-/views/          -> Interfaces utilisateur (HTML, CSS, Bootstrap)
-/public/         -> Images et assets du projet
-/database.sql    -> Script SQL pour initialiser la base de données
-```
+- 
+- **Email** : nathanael.pivot@ynov.com
+- **Mot de passe** : password
 
 ## Technologies Utilisées
 
 - **Backend** : **PHP**
 - **Frontend** : **Html**
-- **Sécurité** : **à renseigner**
-- **Gestion du Projet** : **à renseigner**
 
 ## Licence
 
