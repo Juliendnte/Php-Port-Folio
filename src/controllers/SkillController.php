@@ -137,7 +137,9 @@ class SkillController
         $SkillId = $_POST['skill'];
         $Level = $_POST['level'];
         $user_skillModel = new Users_skills();
-        $user_skillModel->addUserSkill($user['id'], $SkillId, $Level);
+        if (empty($user_skillModel->addUserSkill($user['id'], $SkillId, $Level))) {
+            $_SESSION['errors']['duplicata'] = 'Vous avez déjà ce skill';
+        }
         header('Location: /profile');
     }
 }

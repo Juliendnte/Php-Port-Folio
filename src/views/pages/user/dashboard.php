@@ -1,3 +1,9 @@
+<?php
+echo '<script>';
+echo 'console.log(' . json_encode($_SESSION, JSON_PRETTY_PRINT) . ');';
+echo '</script>';
+?>
+
 <h2> DASHBOARD </h2>
 <p>Créer un nouveau skill</p>
 <form action="/skill/add" method="post">
@@ -6,9 +12,9 @@
     <input type="submit" value="Ajouter">
 </form>
 <?php
-if (isset($_SESSION["errors"]["duplicata"]) && count($_SESSION["errors"]) > 0) {
-    echo($_SESSION["errors"]["duplicata"]);
-    unset($_SESSION["errors"]["duplicata"]);
+if (isset($_SESSION["error"]["duplicata"]) && count($_SESSION["error"]) > 0) {
+    echo($_SESSION["error"]["duplicata"]);
+    unset($_SESSION["error"]["duplicata"]);
 }
 ?>
 <br>

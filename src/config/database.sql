@@ -86,3 +86,66 @@ VALUES
 
     ((SELECT id FROM users WHERE email = 'nathanael.pivot@ynov.com'),
      (SELECT id FROM skills WHERE name = 'CSS'), 'intermédiaire')
+
+INSERT INTO projects (user_id, title, description, image, link)
+VALUES
+    ((SELECT id FROM users WHERE email = 'julien.dante@ynov.com'),
+     'Projet PHP Avancé',
+     'Un projet basé sur PHP pour des fonctionnalités avancées.',
+     'default_image.png',
+     'https://github.com/Juliendnte/Php-Port-Folio.git'),
+
+    ((SELECT id FROM users WHERE email = 'julien.dante@ynov.com'),
+     'Backend en Python',
+     'Un backend performant construit avec Python.',
+     'default_image.png',
+     'https://github.com/Juliendnte/backend-python'),
+
+    ((SELECT id FROM users WHERE email = 'julien.dante@ynov.com'),
+     'Guide CSS pour Débutants',
+     'Un tutoriel étape par étape sur CSS.',
+     'default_image.png',
+     'https://github.com/Juliendnte/guide-css');
+
+INSERT INTO projects (user_id, title, description, image, link)
+VALUES
+    ((SELECT id FROM users WHERE email = 'kantin.fagniart@ynov.com'),
+     'CSS Design Expert',
+     'Un projet explorant des designs complexes en CSS.',
+     'default_image.png',
+     'https://github.com/KANTIN-FAGN/css-design-expert'),
+
+    ((SELECT id FROM users WHERE email = 'kantin.fagniart@ynov.com'),
+     'PHP Application Intermédiaire',
+     'Application développée en PHP avec des fonctionnalités dynamiques.',
+     'default_image.png',
+     'https://github.com/KANTIN-FAGN/livrables-projet-final-php'),
+
+    ((SELECT id FROM users WHERE email = 'kantin.fagniart@ynov.com'),
+     'Portfolio Personnel',
+     'Un portfolio interactif utilisant HTML/CSS.',
+     'default_image.png',
+     'https://github.com/KANTIN-FAGN/portfolio');
+
+INSERT INTO projects (user_id, title, description, image, link)
+VALUES
+    ((SELECT id FROM users WHERE email = 'nathanael.pivot@ynov.com'),
+     'Projet Python Intermédiaire',
+     'Un projet explorant des concepts intermédiaires en Python.',
+     'default_image.png',
+     'https://github.com/NathanaelPivot/python-projet'),
+
+    ((SELECT id FROM users WHERE email = 'nathanael.pivot@ynov.com'),
+     'CSS Modern',
+     'Créer des pages web modernes avec CSS.',
+     'default_image.png',
+     'https://github.com/NathanaelPivot/css-modern'),
+
+    ((SELECT id FROM users WHERE email = 'nathanael.pivot@ynov.com'),
+     'Gestion de Contenu PHP',
+     'Un système de gestion de contenu basé sur PHP.',
+     'default_image.png',
+     'https://github.com/NathanaelPivot/portfolio-php');
+
+UPDATE projects
+SET image = 'project/default.png' WHERE id >0;
