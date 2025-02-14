@@ -2,9 +2,9 @@
 
 namespace App\models;
 
-use App\config\Database;
-use PDO;
+use Config\Database;
 use Exception;
+use PDO;
 
 /**
  * Mon ORM

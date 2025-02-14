@@ -79,6 +79,8 @@ Ce projet est une application web développée en PHP & MySQL permettant aux uti
 4. Démarrer le serveur PHP et tester l'application :
 
    ```sh
+   composer install
+   composer dump-autoload
    composer serve
    ```
 
