@@ -206,7 +206,7 @@ class ProjectController
         $image = $_FILES['image'];
         $imagePath = $project['image'];
 
-        if (!empty($image) && $image['error'] === UPLOAD_ERR_OK && $imagePath !== 'project/default.png') {
+        if (!empty($image) && $image['error'] === UPLOAD_ERR_OK) {
             $maxFileSize = 2 * 1024 * 1024; // Taille maximale de 2 Mo
             if ($image['size'] > $maxFileSize) {
                 $_SESSION['errors']['image'] = "L'image est trop volumineuse. Taille maximale autorisée : 2 Mo.";
