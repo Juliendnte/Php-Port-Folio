@@ -165,7 +165,6 @@ class Model
     UPDATE $table SET $columns WHERE {$this->keyName} = :id
     sql;
 
-        $_SESSION['sql'] = $sql;
         try {
             $statement = $this->pdo->prepare($sql);
             foreach ($values as $key => $value) {
@@ -175,7 +174,6 @@ class Model
             $statement->execute();
             return $statement->rowCount();
         } catch (Exception $e) {
-            $_SESSION['erreur'] = $e->getMessage();
             return false;
         }
     }
@@ -193,7 +191,6 @@ class Model
         $sql = "DELETE FROM $table WHERE $key= :id ;";
         try {
             $statement = $this->pdo->prepare($sql);
-            $_SESSION['sql'] = $sql;
             $statement->bindParam(":$key", $id, PDO::PARAM_INT);
             $statement->execute();
             return $statement->rowCount();

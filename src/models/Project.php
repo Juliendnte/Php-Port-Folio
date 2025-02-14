@@ -21,4 +21,21 @@ class Project extends Model
     {
         return $this->findAllBy('user_id', $id);
     }
+
+    public function updateProject(
+        $id,
+        $title,
+        $description,
+        $image,
+        $link,
+    ): bool|int
+    {
+        return $this->update($id, [
+            'title' => $title,
+            'description' => $description,
+            'image' => $image,
+            'link' => $link,
+        ]);
+
+    }
 }

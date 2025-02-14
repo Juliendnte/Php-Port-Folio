@@ -47,6 +47,19 @@ class SkillController
 
         header('Location: /profile');
     }
+    public static function updateUserSkill(int $id): void
+    {
+        $user = AuthController::connected();
+        if (empty($user)) {
+            header('Location:/', 401);
+        }
+        $level = $_POST['level'];
+
+        $userskillModel = new Users_skills();
+        $userskillModel->updateUserSkill($user['id'], $id, $level);
+
+        header('Location: /profile');
+    }
 
     public static function addUserSkill(): void
     {

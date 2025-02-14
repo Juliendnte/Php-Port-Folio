@@ -37,4 +37,21 @@ class Users_skills extends Model
             'level' => $level,
         ]);
     }
+
+    public function updateUserSkill(int $userId, int $skillId, string $level): bool|int
+    {
+        $sql = <<<sql
+        UPDATE $this->table SET level = :level WHERE user_id = :userId AND skill_id = :skillId;
+        sql;
+        try {
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->bindParam(":level", $level);
+            $stmt->bindParam(":userId", $userId, \PDO::PARAM_INT);
+            $stmt->bindParam(":skillId", $skillId, \PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->rowCount();
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
 }
