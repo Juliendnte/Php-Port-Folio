@@ -1,6 +1,7 @@
 # Projet Portfolio - Gestion des Utilisateurs et des Compétences
 
 ###### Ce projet n'a pas de css par manque temps mais a normalement un bon back (je crois)
+###### Ce projet a été réalisé par Julien Dante
 
 ## Présentation du Projet
 
